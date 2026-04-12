@@ -8,5 +8,19 @@ class Transaction extends Model
 {
     protected $fillable = [];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
+    }
+
+    public function doctor()
+    {
+        return $this->belongsTo(Doctor::class);
+    }
     //
 }
