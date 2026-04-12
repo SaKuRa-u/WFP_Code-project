@@ -6,10 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Service extends Model
 {
-    protected $fillable = [];
+    protected $fillable = [
+        'service_name',
+        'description',
+        'availability',
+        'price',
+        'category_id'
+    ];
 
     public function category()
     {
-        return $this->belongsTo(Category::class, 'category_id', 'id'); //target nya category_id yg ditabel servicec, yg dihubungkan ke id ditabel categories
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 }
