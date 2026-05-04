@@ -1,7 +1,7 @@
-@extends('layouts.default')
+@extends('layouts.adminlte')
 
-@section('Title', "Home")
+{{-- @section('Title', "Home") --}}
 
-@section('body')
+@section('content')
     <p>silahkan pilih menu untuk menampilkan data</p>
 @endsection

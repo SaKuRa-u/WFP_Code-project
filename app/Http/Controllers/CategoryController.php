@@ -13,7 +13,7 @@ class CategoryController extends Controller
     public function index()
     {
         $allData = Category::all();;
-        return view('category', ['allCategoryData'=> $allData]);
+        return view('category/category', ['allCategoryData'=> $allData]);
     }
 
     /**

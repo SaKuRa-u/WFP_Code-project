@@ -13,7 +13,7 @@ class DoctorController extends Controller
     public function index()
     {
         $allData = Doctor::all();;
-        return view('doctor', ['allDoctorData'=> $allData]);
+        return view('doctor/doctor', ['allDoctorData'=> $allData]);
     }
 
     /**

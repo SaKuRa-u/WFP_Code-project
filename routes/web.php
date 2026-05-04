@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name("dashboard");
 
 
 // Route::controller(UserController::class)->group(function () { BUAT LOGIN REGIS NANTI
@@ -28,4 +28,3 @@ Route::resource('Service',ServiceController::class);
 Route::resource('Category',CategoryController::class);
 Route::resource('Transaction',TransactionController::class);
 Route::resource('Article',ArticleController::class);
-

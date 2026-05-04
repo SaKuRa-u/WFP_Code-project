@@ -13,7 +13,7 @@ class UserConstoller extends Controller
     public function index()
     {
         $allData = User::all();;
-        return view('user', ['allUserData'=> $allData]);
+        return view('user/user', ['allUserData'=> $allData]);
     }
 
     /**

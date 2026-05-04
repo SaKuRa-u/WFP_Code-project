@@ -13,7 +13,7 @@ class TransactionController extends Controller
     public function index()
     {
         $allData = Transaction::with(['user', 'service', 'doctor'])->get();
-        return view('transaction', ['allTransactionData'=> $allData]);
+        return view('transaction/transaction', ['allTransactionData'=> $allData]);
     }
 
     /**
