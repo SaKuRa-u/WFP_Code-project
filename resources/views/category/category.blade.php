@@ -45,6 +45,31 @@
                                                 Show
                                             </button>
                                         </td>
+                                        @push('modals') {{--* ini untuk tampilin gambar kategori --}}
+                                            <!-- Modal {{ $cat->id }} -->
+                                            <div class="modal fade" id="imageModal-{{ $cat->id }}" tabindex="-1"
+                                                aria-labelledby="imageModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="imageModalLabel">Gambar untuk
+                                                                Kategori {{ $cat->id }} </h1>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <img class="img-responsive" style="max-height:250px;"
+                                                                src="{{ asset('storage/img/categories/' . $cat->image) }}">
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Close</button>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endpush
 
                                         <td>{{ $cat->category_name }}</td>
                                         <td class="text-center">
@@ -60,30 +85,7 @@
 
                                     </tr>
 
-                                    @push('modals') {{--* ini untuk tampilin gambar kategori  --}}
-                                        <!-- Modal {{ $cat->id }} -->
-                                        <div class="modal fade" id="imageModal-{{ $cat->id }}" tabindex="-1"
-                                            aria-labelledby="imageModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h1 class="modal-title fs-5" id="imageModalLabel">Gambar untuk
-                                                            Kategori {{ $cat->id }} </h1>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <img src="{{ asset('storage/' . $cat->image) }}" width="100%">
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">Close</button>
-                                                        <button type="button" class="btn btn-primary">Save changes</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endpush
+
                                 @endforeach
                             </tbody>
                         </table>
@@ -123,7 +125,7 @@
                 type: 'POST',
                 url: '{{ route('category.showinfo') }}',
                 data: '_token=<?php echo csrf_token(); ?>',
-                success: function(data) {
+                success: function (data) {
                     $('#showinfo').html(data.msg);
                 }
             });
@@ -137,7 +139,7 @@
                     '_token': '<?php echo csrf_token(); ?>',
                     'idcat': id,
                 },
-                success: function(data) {
+                success: function (data) {
                     $('#detail-title').html(data.title);
                     $('#detail-body').html(data.body);
                 }
