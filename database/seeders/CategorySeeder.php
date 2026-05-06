@@ -14,11 +14,26 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         DB::table('categories')->insert([
-            ['category_name' => 'General Consultation'],
-            ['category_name' => 'Specialist Consultation'],
-            ['category_name' => 'Medical Check-up'],
-            ['category_name' => 'Laboratory Tests'],
-            ['category_name' => 'Telemedicine'],
+            [
+                'category_name' => 'General Consultation',
+                'image' => 'general_consultation.jpg'
+            ],
+            [
+                'category_name' => 'Specialist Consultation',
+                'image' => 'specialist_consultation.jpg'
+            ],
+            [
+                'category_name' => 'Medical Check-up',
+                'image' => 'medical_check.jpg'
+            ],
+            [
+                'category_name' => 'Laboratory Tests',
+                'image' => 'lab_test.jpg'
+            ],
+            [
+                'category_name' => 'Telemedicine',
+                'image' => 'telemedicine.jpg'
+            ],
         ]);
     }
 }

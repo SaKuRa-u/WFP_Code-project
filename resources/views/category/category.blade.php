@@ -59,7 +59,7 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             <img class="img-responsive" style="max-height:250px;"
-                                                                src="{{ asset('storage/img/categories/' . $cat->image) }}">
+                                                                src="{{ asset('storage/categories/img/' . $cat->image) }}" alt="{{ $cat->image }}">
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary"
