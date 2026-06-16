@@ -22,6 +22,7 @@ class CategoryController extends Controller
     public function create()
     {
         //
+        return view('category.create');
     }
 
     /**
@@ -30,6 +31,28 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         //
+        $data = new Category();
+        $data->category_name = $request->name;
+
+        if ($request->hasFile('image')) {
+
+            $file = $request->file('image');
+
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+
+            $file->move(
+                storage_path('app/public/categories/img'),
+                $filename
+            );
+
+            $data->image = $filename;
+        }
+
+        $data->save();
+
+        return redirect()
+            ->route('category.index')
+            ->with('sukses', 'berhasil buat kategori baru');
     }
 
     /**

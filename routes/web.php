@@ -38,3 +38,8 @@ Route::post(
     "/category/showListServices",
     [CategoryController::class, 'showListServices']
 )->name("category.showListServices");
+
+Route::post(
+    "/transaction/detail",
+    [TransactionController::class, 'showDetail']
+)->name("transaction.showDetailTransaction");

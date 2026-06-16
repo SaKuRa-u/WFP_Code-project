@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Service;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,8 @@ class ServiceController extends Controller
     public function index()
     {
         $allData = Service::all();
-        return view('service/service', ['allServiceData'=> $allData]);
+        $allCategories = Category::all();
+        return view('service/service', ['allServiceData' => $allData, 'categories' => $allCategories]);
     }
 
     /**
@@ -22,6 +24,9 @@ class ServiceController extends Controller
     public function create()
     {
         //
+        $categories = Category::all();
+
+        return view('service.create', compact('categories'));
     }
 
     /**
@@ -30,6 +35,32 @@ class ServiceController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'name' => 'required',
+            'SelectedCategory' => 'required|exists:categories,id',
+            'description' => 'required',
+            'open_hour' => 'required|date_format:H:i',
+            'close_hour' => 'required|date_format:H:i',
+            'price' => 'required|numeric',
+        ], [
+            'open_hour.date_format' => 'harap isi sesuai format yang ditentukan',
+            'close_hour.date_format' => 'harap isi sesuai format yang ditentukan',
+        ]);
+
+        //
+        $data = new Service();
+        $data->service_name = $request->name;
+        $data->category_id = $request->SelectedCategory;
+        $data->description = $request->description;
+
+        $data->availability = $request->open_hour . '-' . $request->close_hour;
+        $data->price = $request->price;
+
+        $data->save();
+
+        return redirect()
+            ->route('service.index')
+            ->with('sukses', 'berhasil buat servis baru');
     }
 
     /**
@@ -39,7 +70,6 @@ class ServiceController extends Controller
     {
         //
         // dd($service);
-
         return view('service.detailService', compact('service'));
     }
 

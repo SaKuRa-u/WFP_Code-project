@@ -2,29 +2,38 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
+use App\Models\Service;
+use App\Models\Transaction;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class TransactionSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        $data = [];
+        $users = User::all();
+        $services = Service::all();
 
-        for ($i = 0; $i < 30; $i++) {
-            $data[] = [
-                'user_id' => rand(1, 7),      // total user 7 (2 seed + 5 faker)
-                'doctor_id' => rand(1, 7),      // total dokter 7
-                'service_id' => rand(1, 5),   // total service 5
-                'created_at' => now(),
-                'updated_at' => now(),
-            ];
+        foreach (range(1, 10) as $i) {
+
+            $user = $users->random();
+
+            // pilih random service
+            $randomServices = $services->random(rand(1, 3));
+
+            // hitung total
+            $total = $randomServices->sum('price');
+
+            // buat transaction
+            $transaction = Transaction::create([
+                'user_id' => $user->id,
+                'total' => $total,
+            ]);
+
+            // attach services ke pivot
+            $transaction->services()->attach(
+                $randomServices->pluck('id')->toArray()
+            );
         }
-
-        DB::table('transactions')->insert($data);
     }
 }

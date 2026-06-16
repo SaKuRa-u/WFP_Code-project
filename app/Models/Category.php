@@ -6,7 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    protected $fillable = [];
+    public $timestamps = false;
+    protected $fillable = [
+        'category_name',
+        'image'
+    ];
 
     public function services()
     {
