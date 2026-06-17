@@ -99,23 +99,54 @@
 
                     <!--begin::User Menu Dropdown-->
                     <li class="nav-item dropdown user-menu">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img src="{{ asset('AdminLTE4/assets/img/user2-160x160.jpg') }}"
-                                class="user-image rounded-circle shadow" alt="User Image" />
-                            <span class="d-none d-md-inline">Alexander Pierce</span>
+                        <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown" style="padding: 0.5rem 0.75rem;">
+                            <div class="rounded-circle shadow-sm d-flex align-items-center justify-content-center bg-gradient-info text-white font-weight-bold border border-white"
+                                style="width: 32px; height: 32px; font-size: 0.85rem; letter-spacing: 0.5px;">
+                                {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
+                            </div>
+                            <span class="d-none d-md-inline ml-2 font-weight-semibold text-dark" style="font-size: 0.95rem;">
+                                {{ Auth::user()->name }}
+                            </span>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                            <li class="user-header text-bg-primary">
-                                <img src="{{ asset('AdminLTE4/assets/img/user2-160x160.jpg') }}"
-                                    class="rounded-circle shadow" alt="User Image" />
-                                <p>
-                                    Alexander Pierce - Web Developer
-                                    <small>Member since Nov. 2023</small>
+
+                        <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end shadow-lg border-0"
+                            style="border-radius: 16px; overflow: hidden; min-width: 280px; margin-top: 10px;">
+
+                            <li class="user-header text-center p-4 d-flex flex-column align-items-center justify-content-center"
+                                style="background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);">
+
+                                <div class="bg-white rounded-circle d-flex align-items-center justify-content-center text-primary shadow-sm mb-3"
+                                    style="width: 72px; height: 72px; box-shadow: 0 4px 15px rgba(255,255,255,0.2) !important;">
+                                    <i class="fas fa-user-md" style="font-size: 2.2rem;"></i>
+                                </div>
+
+                                <h6 class="text-white font-weight-bold mb-1" style="font-size: 1.1rem; letter-spacing: 0.3px;">
+                                    {{ Auth::user()->name }}
+                                </h6>
+                                <p class="text-white mb-3" style="font-size: 0.85rem; opacity: 0.85; font-weight: 300;">
+                                    {{ Auth::user()->email }}
                                 </p>
+
+                                <span class="badge bg-white text-primary px-3 py-2 rounded-pill font-weight-semibold shadow-sm"
+                                    style="font-size: 0.75rem; letter-spacing: 0.3px;">
+                                    <i class="far fa-calendar-alt mr-1"></i> Bergabung: {{ Auth::user()->created_at->format('d M Y') }}
+                                </span>
                             </li>
-                            <li class="user-footer">
-                                <a href="#" class="btn btn-default btn-flat">Profile</a>
-                                <a href="#" class="btn btn-default btn-flat float-end">Sign out</a>
+
+                            <li class="user-footer bg-white p-3 d-flex justify-content-between align-items-center border-top border-light">
+                                <a href="{{ route('profile.edit') }}" class="btn btn-light btn-sm text-secondary font-weight-medium px-3 py-2 rounded-lg transition-all"
+                                    style="border-radius: 10px; font-size: 0.85rem; border: 1px solid #e2e8f0;">
+                                    <i class="fas fa-user-cog text-muted mr-1.5"></i> Pengaturan
+                                </a>
+
+                                <form method="POST" action="{{ route('logout') }}" class="m-0">
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger btn-sm font-weight-semibold px-3 py-2 shadow-sm transition-all"
+                                        style="border-radius: 10px; font-size: 0.85rem; background-color: #dc3545; border: none;"
+                                        onclick="return confirm('Apakah Anda yakin ingin keluar dari sistem?')">
+                                        <i class="fas fa-sign-out-alt mr-1.5"></i> Keluar
+                                    </button>
+                                </form>
                             </li>
                         </ul>
                     </li>
@@ -141,50 +172,63 @@
             <!--begin::Sidebar Wrapper-->
             <div class="sidebar-wrapper">
                 <nav class="mt-2">
-                    <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu"
-                        data-accordion="false">
+                    <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
+
                         <li class="nav-item">
                             <a href="{{ route('dashboard') }}" class="nav-link {{ activeRoute('root') }}">
                                 <i class="nav-icon bi bi-speedometer"></i>
                                 <p>Dashboard</p>
                             </a>
                         </li>
+
+                        @if(Auth::user() && Auth::user()->isDoctor())
+
                         <li class="nav-item">
                             <a href="{{ route('service.index') }}" class="nav-link {{ activeRoute('service*') }}">
                                 <i class="nav-icon bi bi-palette"></i>
                                 <p>Services</p>
                             </a>
                         </li>
+
                         <li class="nav-item">
                             <a href="{{ route('doctor.index') }}" class="nav-link {{ activeRoute('doctor*') }}">
                                 <i class="nav-icon bi bi-person-badge"></i>
                                 <p>Doctors</p>
                             </a>
                         </li>
+
                         <li class="nav-item">
                             <a href="{{ route('category.index') }}" class="nav-link {{ activeRoute('category*') }}">
                                 <i class="nav-icon bi bi-tag-fill"></i>
                                 <p>Categories</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{ route('transaction.index') }}" class="nav-link {{ activeRoute('transaction*') }}">
-                                <i class="nav-icon bi bi-receipt"></i>
-                                <p>Transactions</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('article.index') }}" class="nav-link {{ activeRoute('article*') }}">
-                                <i class="nav-icon bi bi-newspaper"></i>
-                                <p>Articles</p>
-                            </a>
-                        </li>
+
                         <li class="nav-item">
                             <a href="{{ route('user.index') }}" class="nav-link {{ activeRoute('user*') }}">
                                 <i class="nav-icon bi bi-people-fill"></i>
                                 <p>Users</p>
                             </a>
                         </li>
+
+                        @else
+
+                        <li class="nav-item">
+                            <a href="{{ route('article.index') }}" class="nav-link {{ activeRoute('article*') }}">
+                                <i class="nav-icon bi bi-newspaper"></i>
+                                <p>Articles</p>
+                            </a>
+                        </li>
+
+                        @endif
+
+                        <li class="nav-item">
+                            <a href="{{ route('transaction.index') }}" class="nav-link {{ activeRoute('transaction*') }}">
+                                <i class="nav-icon bi bi-receipt"></i>
+                                <p>Transactions</p>
+                            </a>
+                        </li>
+
                     </ul>
                 </nav>
             </div>
@@ -240,7 +284,7 @@
             scrollbarAutoHide: 'leave',
             scrollbarClickScroll: true,
         };
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
             if (sidebarWrapper && typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== 'undefined') {
                 OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
