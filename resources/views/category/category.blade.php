@@ -98,12 +98,12 @@
                                         <td>
                                             <div class="d-flex flex-wrap gap-2 align-items-center">
                                                 <button type="button" class="btn btn-info" data-bs-toggle="modal"
-                                                    data-bs-target="#detailModal" onclick="showDetail({{ $cat->id }})">
+                                                    data-bs-target="#detailModal" onclick="showDetail('{{ $cat->id }}')">
                                                     Details
                                                 </button>
 
                                                 <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                                    data-bs-target="#modalEditA" onclick="getEditForm({{ $cat->id }})">
+                                                    data-bs-target="#modalEditA" onclick="getEditForm('{{$cat->id}}')">
                                                     Edit Type A
                                                 </button>
 
@@ -191,7 +191,7 @@
         function showInfo() {
             $.ajax({
                 type: 'POST',
-                url: '{{ route('category.showinfo') }}',
+                url: "{{ route('category.showinfo')}}",
                 data: '_token=<?php echo csrf_token(); ?>',
                 success: function(data) {
                     $('#showinfo').html(data.msg);
@@ -202,7 +202,7 @@
         function showDetail(id) {
             $.ajax({
                 type: 'POST',
-                url: '{{ route('category.showListServices') }}',
+                url: "{{ route('category.showListServices') }}",
                 data: {
                     '_token': '<?php echo csrf_token(); ?>',
                     'idcat': id,
