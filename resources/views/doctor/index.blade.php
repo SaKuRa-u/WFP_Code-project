@@ -198,7 +198,7 @@
                         <div>
                             <h5>Dokter</h5>
                             <small class="text-muted" style="font-size:0.75rem;">
-                                Total {{ $doctors->total() }} dokter terdaftar
+                                Total {{ $doctors->count() }} dokter terdaftar
                             </small>
                         </div>
                     </div>
@@ -216,7 +216,7 @@
                         <a href="#aktif" class="nav-link active" data-bs-toggle="tab">
                             Aktif
                             <span class="badge bg-primary ms-1">
-                                {{ $doctors->total() }}
+                                {{ $doctors->count() }}
                             </span>
                         </a>
                     </li>
@@ -225,7 +225,7 @@
                         <a href="#nonaktif" class="nav-link" data-bs-toggle="tab">
                             Nonaktif
                             <span class="badge bg-secondary ms-1">
-                                {{ $trashedDoctors->total() }}
+                                {{ $trashedDoctors->count() }}
                             </span>
                         </a>
                     </li>
@@ -255,7 +255,7 @@
                                         @forelse($doctors as $doctor)
                                             <tr>
                                                 <td class="text-muted" style="font-size:0.78rem;">
-                                                    {{ $loop->iteration + ($doctors->currentPage() - 1) * $doctors->perPage() }}
+                                                    {{ $loop->iteration }}
                                                 </td>
                                                 <td>
                                                     <div class="d-flex align-items-center gap-2">
@@ -323,12 +323,6 @@
                             </div>
                         </div>
 
-                        {{-- Pagination --}}
-                        @if ($doctors->hasPages())
-                            <div class="card-footer bg-transparent border-top-0 pt-0 pb-3 px-3">
-                                {{ $doctors->links() }}
-                            </div>
-                        @endif
 
                     </div>
 
@@ -400,12 +394,6 @@
                                 </table>
                             </div>
 
-                            {{-- Pagination --}}
-                            @if ($trashedDoctors->hasPages())
-                                <div class="card-footer bg-transparent border-top-0 pt-0 pb-3 px-3">
-                                    {{ $trashedDoctors->links() }}
-                                </div>
-                            @endif
 
                         </div>
 
@@ -417,6 +405,3 @@
 
     @endsection
 
-    @push('scripts')
-
-    @endpush

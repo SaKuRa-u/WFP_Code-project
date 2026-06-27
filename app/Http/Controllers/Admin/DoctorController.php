@@ -18,13 +18,11 @@ class DoctorController extends Controller
     {
         $doctors = User::where('role', 'doctor')
             ->with('specializations')
-            ->latest()
-            ->paginate(10);
+            ->orderBy('name')->get();
         $trashedDoctors = User::where('role', 'doctor')
             ->onlyTrashed()
             ->with('specializations')
-            ->latest()
-            ->paginate(10);
+            ->orderBy('deleted_at', 'desc')->get();
         return view('doctor.index', compact('doctors', 'trashedDoctors'));
     }
 

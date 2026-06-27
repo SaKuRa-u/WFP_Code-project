@@ -193,7 +193,7 @@
                         <div>
                             <h5>Member</h5>
                             <small class="text-muted" style="font-size:0.75rem;">
-                                Total {{ $users->total() }} member terdaftar
+                                Total {{ $users->count() }} member terdaftar
                             </small>
                         </div>
                     </div>
@@ -212,7 +212,7 @@
                         <a href="#aktif" class="nav-link active" data-bs-toggle="tab">
                             Aktif
                             <span class="badge bg-primary ms-1">
-                                {{ $users->total() }}
+                                {{ $users->count() }}
                             </span>
                         </a>
                     </li>
@@ -221,7 +221,7 @@
                         <a href="#nonaktif" class="nav-link" data-bs-toggle="tab">
                             Nonaktif
                             <span class="badge bg-secondary ms-1">
-                                {{ $trashedUsers->total() }}
+                                {{ $trashedUsers->count() }}
                             </span>
                         </a>
                     </li>
@@ -251,7 +251,7 @@
                                             @forelse($users as $user)
                                                 <tr>
                                                     <td class="text-muted" style="font-size:0.78rem;">
-                                                        {{ $loop->iteration + ($users->currentPage() - 1) * $users->perPage() }}
+                                                        {{ $loop->iteration }}
                                                     </td>
                                                     <td>
                                                         <div class="d-flex align-items-center gap-2">
@@ -289,7 +289,7 @@
                                                                 method="POST" class="d-inline delete-form">
                                                                 @csrf
                                                                 @method('DELETE')
-                                                                <button type="submit" class="action-btn delete"
+                                                                <button type="submit" class="action-btn delete" onclick="return confirm('Hapus member ini?')"
                                                                     title="Hapus">
                                                                     <i class="bi bi-trash3"></i>
                                                                 </button>
@@ -313,12 +313,7 @@
                                 </div>
                             </div>
 
-                            {{-- Pagination --}}
-                            @if ($users->hasPages())
-                                <div class="card-footer bg-transparent border-top-0 pt-0 pb-3 px-3">
-                                    {{ $users->links() }}
-                                </div>
-                            @endif
+
 
                     </div>
 
@@ -344,7 +339,7 @@
                                         @forelse($trashedUsers as $user)
                                             <tr>
                                                 <td class="text-muted" style="font-size:0.78rem;">
-                                                    {{ $loop->iteration + ($trashedUsers->currentPage() - 1) * $trashedUsers->perPage() }}
+                                                    {{ $loop->iteration }}
                                                 </td>
                                                 <td>{{ $user->name }}</td>
                                                 <td>{{ $user->email }}</td>
@@ -388,12 +383,7 @@
                                 </table>
                             </div>
 
-                            {{-- Pagination --}}
-                            @if ($users->hasPages())
-                                <div class="card-footer bg-transparent border-top-0 pt-0 pb-3 px-3">
-                                    {{ $users->links() }}
-                                </div>
-                            @endif
+ 
 
                         </div>
 
@@ -404,17 +394,3 @@
         </div>
 
     @endsection
-
-    @push('scripts')
-        <script>
-            // Konfirmasi hapus
-            document.querySelectorAll('.delete-form').forEach(form => {
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    if (confirm('Hapus member ini? Tindakan ini tidak dapat dibatalkan.')) {
-                        this.submit();
-                    }
-                });
-            });
-        </script>
-    @endpush

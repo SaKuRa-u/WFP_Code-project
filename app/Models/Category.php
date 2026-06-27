@@ -11,4 +11,9 @@ class Category extends Model
     public $timestamps = false; // ← tambah ini
 
     protected $fillable = ['category_name', 'image'];
+
+    public function services()
+    {
+        return $this->hasMany(Service::class);
+    }
 }

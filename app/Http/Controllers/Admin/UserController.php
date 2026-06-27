@@ -15,8 +15,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::where('role', 'member')->latest()->paginate(10);
-        $trashedUsers = User::where('role', 'member')->onlyTrashed()->latest()->paginate(10);
+        $users = User::where('role', 'member')->orderBy('name')->get();
+        $trashedUsers = User::where('role', 'member')->onlyTrashed()->orderBy('deleted_at', 'desc')->get();
 
         return view('user.index', compact('users', 'trashedUsers'));
     }

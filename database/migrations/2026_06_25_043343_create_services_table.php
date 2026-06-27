@@ -19,6 +19,8 @@ return new class extends Migration
             $table->double('price');
             $table->foreignId('category_id')->constrained('categories')->onDelete('restrict');
             $table->timestamps();
+            $table->softDeletes();
+
         });
     }
 
