@@ -2,14 +2,17 @@
 
 namespace App\Models;
 
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class User extends Authenticatable
 {
+    use SoftDeletes;
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
@@ -22,6 +25,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone',
+        'role',
     ];
 
     /**
@@ -31,6 +36,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
+        'remember_token',
     ];
 
     /**
@@ -41,12 +47,35 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
+            'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
     }
-
+    public function specializations()
+    {
+        return $this->belongsToMany(Specialization::class);
+    }
     public function isDoctor(): bool
     {
-        return DB::table('doctors')->where('email', $this->email)->exists();
+        return $this->role === 'doctor';
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        // Saat soft delete, detach spesialisasi dokter
+        static::deleting(function ($user) {
+            if ($user->isDoctor()) {
+                $user->specializations()->detach();
+            }
+        });
+
+        // Saat restore, tidak perlu re-attach (admin bisa edit manual)
     }
 }

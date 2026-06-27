@@ -51,43 +51,7 @@
 
                 <!--begin::End Navbar Links-->
                 <ul class="navbar-nav ms-auto">
-                    <!--begin::Navbar Search-->
-                    <li class="nav-item">
-                        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-                            <i class="bi bi-search"></i>
-                        </a>
-                    </li>
-                    <!--end::Navbar Search-->
-
-                    <!--begin::Notifications Dropdown Menu-->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" data-bs-toggle="dropdown" href="#">
-                            <i class="bi bi-bell-fill"></i>
-                            <span class="navbar-badge badge text-bg-warning">15</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                            <span class="dropdown-item dropdown-header">15 Notifications</span>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <i class="bi bi-envelope me-2"></i> 4 new messages
-                                <span class="float-end text-secondary fs-7">3 mins</span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <i class="bi bi-people-fill me-2"></i> 8 friend requests
-                                <span class="float-end text-secondary fs-7">12 hours</span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <i class="bi bi-file-earmark-fill me-2"></i> 3 new reports
-                                <span class="float-end text-secondary fs-7">2 days</span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-                        </div>
-                    </li>
-                    <!--end::Notifications Dropdown Menu-->
-
+                   
                     <!--begin::Fullscreen Toggle-->
                     <li class="nav-item">
                         <a class="nav-link" href="#" data-lte-toggle="fullscreen">
@@ -99,12 +63,14 @@
 
                     <!--begin::User Menu Dropdown-->
                     <li class="nav-item dropdown user-menu">
-                        <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown" style="padding: 0.5rem 0.75rem;">
+                        <a href="#" class="nav-link dropdown-toggle d-flex align-items-center"
+                            data-bs-toggle="dropdown" style="padding: 0.5rem 0.75rem;">
                             <div class="rounded-circle shadow-sm d-flex align-items-center justify-content-center bg-gradient-info text-white font-weight-bold border border-white"
                                 style="width: 32px; height: 32px; font-size: 0.85rem; letter-spacing: 0.5px;">
                                 {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
                             </div>
-                            <span class="d-none d-md-inline ml-2 font-weight-semibold text-dark" style="font-size: 0.95rem;">
+                            <span class="d-none d-md-inline ml-2 font-weight-semibold text-dark"
+                                style="font-size: 0.95rem;">
                                 {{ Auth::user()->name }}
                             </span>
                         </a>
@@ -120,28 +86,35 @@
                                     <i class="fas fa-user-md" style="font-size: 2.2rem;"></i>
                                 </div>
 
-                                <h6 class="text-white font-weight-bold mb-1" style="font-size: 1.1rem; letter-spacing: 0.3px;">
+                                <h6 class="text-white font-weight-bold mb-1"
+                                    style="font-size: 1.1rem; letter-spacing: 0.3px;">
                                     {{ Auth::user()->name }}
                                 </h6>
-                                <p class="text-white mb-3" style="font-size: 0.85rem; opacity: 0.85; font-weight: 300;">
+                                <p class="text-white mb-3"
+                                    style="font-size: 0.85rem; opacity: 0.85; font-weight: 300;">
                                     {{ Auth::user()->email }}
                                 </p>
 
-                                <span class="badge bg-white text-primary px-3 py-2 rounded-pill font-weight-semibold shadow-sm"
+                                <span
+                                    class="badge bg-white text-primary px-3 py-2 rounded-pill font-weight-semibold shadow-sm"
                                     style="font-size: 0.75rem; letter-spacing: 0.3px;">
-                                    <i class="far fa-calendar-alt mr-1"></i> Bergabung: {{ Auth::user()->created_at->format('d M Y') }}
+                                    <i class="far fa-calendar-alt mr-1"></i> Bergabung:
+                                    {{ Auth::user()->created_at->format('d M Y') }}
                                 </span>
                             </li>
 
-                            <li class="user-footer bg-white p-3 d-flex justify-content-between align-items-center border-top border-light">
-                                <a href="{{ route('profile.edit') }}" class="btn btn-light btn-sm text-secondary font-weight-medium px-3 py-2 rounded-lg transition-all"
+                            <li
+                                class="user-footer bg-white p-3 d-flex justify-content-between align-items-center border-top border-light">
+                                <a href="{{ route('profile.edit') }}"
+                                    class="btn btn-light btn-sm text-secondary font-weight-medium px-3 py-2 rounded-lg transition-all"
                                     style="border-radius: 10px; font-size: 0.85rem; border: 1px solid #e2e8f0;">
                                     <i class="fas fa-user-cog text-muted mr-1.5"></i> Pengaturan
                                 </a>
 
                                 <form method="POST" action="{{ route('logout') }}" class="m-0">
                                     @csrf
-                                    <button type="submit" class="btn btn-danger btn-sm font-weight-semibold px-3 py-2 shadow-sm transition-all"
+                                    <button type="submit"
+                                        class="btn btn-danger btn-sm font-weight-semibold px-3 py-2 shadow-sm transition-all"
                                         style="border-radius: 10px; font-size: 0.85rem; background-color: #dc3545; border: none;"
                                         onclick="return confirm('Apakah Anda yakin ingin keluar dari sistem?')">
                                         <i class="fas fa-sign-out-alt mr-1.5"></i> Keluar
@@ -172,61 +145,77 @@
             <!--begin::Sidebar Wrapper-->
             <div class="sidebar-wrapper">
                 <nav class="mt-2">
-                    <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
+                    <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu"
+                        data-accordion="false">
 
                         <li class="nav-item">
-                            <a href="{{ route('dashboard') }}" class="nav-link {{ activeRoute('root') }}">
+                            <a href="{{ route('dashboard') }}" class="nav-link {{ activeRoute('dashboard') }}">
                                 <i class="nav-icon bi bi-speedometer"></i>
                                 <p>Dashboard</p>
                             </a>
                         </li>
 
-                        @if(Auth::user() && Auth::user()->isDoctor())
-
-                        <li class="nav-item">
-                            <a href="{{ route('service.index') }}" class="nav-link {{ activeRoute('service*') }}">
-                                <i class="nav-icon bi bi-palette"></i>
-                                <p>Services</p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="{{ route('doctor.index') }}" class="nav-link {{ activeRoute('doctor*') }}">
-                                <i class="nav-icon bi bi-person-badge"></i>
-                                <p>Doctors</p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="{{ route('category.index') }}" class="nav-link {{ activeRoute('category*') }}">
-                                <i class="nav-icon bi bi-tag-fill"></i>
-                                <p>Categories</p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="{{ route('user.index') }}" class="nav-link {{ activeRoute('user*') }}">
-                                <i class="nav-icon bi bi-people-fill"></i>
-                                <p>Users</p>
-                            </a>
-                        </li>
-
-                        @else
-
-                        <li class="nav-item">
-                            <a href="{{ route('article.index') }}" class="nav-link {{ activeRoute('article*') }}">
-                                <i class="nav-icon bi bi-newspaper"></i>
-                                <p>Articles</p>
-                            </a>
-                        </li>
-
+                        @if (Auth::user()->isAdmin())
+                            <li class="nav-item">
+                                <a href="{{ route('admin.users.index') }}"
+                                    class="nav-link {{ activeRoute('admin.users*') }}">
+                                    <i class="nav-icon bi bi-people-fill"></i>
+                                    <p>Users</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.doctors.index') }}"
+                                    class="nav-link {{ activeRoute('admin.doctors*') }}">
+                                    <i class="nav-icon bi bi-person-badge"></i>
+                                    <p>Doctors</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.categories.index') }}"
+                                    class="nav-link {{ activeRoute('admin.categories*') }}">
+                                    <i class="nav-icon bi bi-tag-fill"></i>
+                                    <p>Categories</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.services.index') }}"
+                                    class="nav-link {{ activeRoute('admin.services*') }}">
+                                    <i class="nav-icon bi bi-palette"></i>
+                                    <p>Services</p>
+                                </a>
+                            </li>
                         @endif
 
+                        {{-- Admin & Doctor --}}
+                        @if (Auth::user()->isAdmin() || Auth::user()->isDoctor())
+                            <li class="nav-item">
+                                <a href="{{ route('articles.index') }}"
+                                    class="nav-link {{ activeRoute('articles*') }}">
+                                    <i class="nav-icon bi bi-newspaper"></i>
+                                    <p>Articles</p>
+                                </a>
+                            </li>
+                        @endif
+
+                        {{-- Semua role (auth) --}}
                         <li class="nav-item">
-                            <a href="{{ route('transaction.index') }}" class="nav-link {{ activeRoute('transaction*') }}">
+                            <a href="{{ route('transactions.index') }}"
+                                class="nav-link {{ activeRoute('transactions*') }}">
                                 <i class="nav-icon bi bi-receipt"></i>
                                 <p>Transactions</p>
                             </a>
+                        </li>
+
+                        {{-- logout --}}
+                        <li class="nav-item">
+                            <a href="{{ route('logout') }}" class="nav-link"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <i class="nav-icon bi bi-box-arrow-right"></i>
+                                <p>Logout</p>
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
                         </li>
 
                     </ul>

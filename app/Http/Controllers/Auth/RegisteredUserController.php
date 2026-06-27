@@ -31,14 +31,18 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'name'     => ['required', 'string', 'max:255'],
+            'email'    => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+            'phone'    => ['required', 'string', 'max:20'],
+            'role'     => ['required', 'in:admin,doctor,member'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'phone'    => $request->phone,
+            'role'     => $request->role, // akan terisi 'member' dari hidden input
             'password' => Hash::make($request->password),
         ]);
 
@@ -46,11 +50,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        // --- ATUR REDIRECT DINAMIS SETELAH REGISTER DI SINI ---
-        if ($user->isDoctor()) {
-            return redirect('/service');
-        }
-
-        return redirect('/transaction');
+        return redirect(route('dashboard', absolute: false));
     }
 }

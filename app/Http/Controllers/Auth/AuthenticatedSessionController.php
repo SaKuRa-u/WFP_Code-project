@@ -28,15 +28,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        // Tambahkan komentar PHPNDoc @var di bawah ini untuk memberi tahu VS Code
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
-        
-        if ($user && $user->isDoctor()) {
-            return redirect()->intended('/service'); // Jika Dokter, masuk ke halaman Service
-        }
-
-        return redirect()->intended('/transaction'); // Jika Non-Dokter, masuk ke halaman Transaction
+        return redirect()->intended(route('dashboard', absolute: false));
     }
 
     /**

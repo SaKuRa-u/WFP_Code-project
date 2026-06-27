@@ -3,17 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
-    public $timestamps = false;
-    protected $fillable = [
-        'category_name',
-        'image'
-    ];
+    use SoftDeletes;
+    public $timestamps = false; // ← tambah ini
 
-    public function services()
-    {
-        return $this->hasMany(Service::class, 'category_id', 'id');
-    }
+    protected $fillable = ['category_name', 'image'];
 }

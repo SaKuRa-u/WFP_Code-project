@@ -1,79 +1,82 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\UserConstoller;
-use App\Http\Controllers\DoctorController;
-use App\Http\Controllers\ServiceController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\TransactionController;
-use App\Http\Controllers\ArticleController;
-use App\Models\User;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\DoctorController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ServiceController;
 
-// 1. GUEST ACCESS (Landing Page Utama)
+// Public
+// Route::get('/', [ArticleController::class, 'landing'])->name('landing');
 Route::get('/', function () {
     return view('welcome');
 });
 
-// 2. DASHBOARD (Bawaan Breeze)
-Route::get('/dashboard', function () {
-    /** @var \App\Models\User|null $user */
-    $user = Auth::user();
+Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
+Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
 
-    if ($user && $user->isDoctor()) {
-        return redirect('/service');
-    }
-    
-    return redirect('/transaction');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Auth routes
+Route::middleware(['auth', 'verified'])->group(function () {
 
-// 3. AUTHENTICATED ACCESS (Harus Login)
-Route::middleware('auth')->group(function () {
-    
-    // --- Route Profil & Manajemen Pengguna ---
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Profile (bawaan Breeze)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('user', UserConstoller::class);
-    
-    // --- Route Transaksi (Bisa diakses Dokter & Non-Dokter) ---
-    Route::resource('transaction', TransactionController::class);
-    Route::post(
-        "/transaction/detail",
-        [TransactionController::class, 'showDetail']
-    )->name("transaction.showDetailTransaction");
+    Route::middleware(['role:admin,doctor'])->group(function () {
 
-
-    // ==========================================
-    // KELOMPOK ROUTE KHUSUS USER DOKTER
-    // ==========================================
-    Route::middleware(['role:doctor'])->group(function () {
-        Route::resource('doctor', DoctorController::class);
-        Route::resource('service', ServiceController::class);
-        Route::resource('category', CategoryController::class);
-
-        // AJAX Kategori dimasukkan ke sini agar hanya bisa diakses Dokter/Staff Medis
-        Route::post(
-            "/category/showinfo",
-            [CategoryController::class, 'showinfo']
-        )->name("category.showinfo");
-
-        Route::post(
-            "/category/showListServices",
-            [CategoryController::class, 'showListServices']
-        )->name("category.showListServices");
+        Route::resource('articles', ArticleController::class)
+            ->except([
+                'index',
+                'show',
+            ]);
     });
 
+    // Transactions (semua role, dikontrol Policy)
+    Route::resource('transactions', TransactionController::class);
 
-    // ==========================================
-    // KELOMPOK ROUTE KHUSUS USER NON-DOKTER
-    // ==========================================
-    Route::middleware(['role:non-doctor'])->group(function () {
-        Route::resource('article', ArticleController::class);
-    });
+    // Messages (chat konsultasi)
+    Route::resource('transactions.messages', MessageController::class)
+        ->only(['index', 'store']);
 
+    // Admin only
+    Route::middleware(['role:admin'])
+        ->prefix('admin')
+        ->name('admin.')
+        ->group(function () {
+            Route::resource('users', UserController::class);
+            Route::patch('users/{id}/restore', [UserController::class, 'restore'])
+                ->name('users.restore');
+            Route::delete('users/{id}/force-delete', [UserController::class, 'forceDelete'])
+                ->name('users.forceDelete');
+
+            Route::resource('doctors', DoctorController::class);
+            Route::patch('doctors/{id}/restore', [DoctorController::class, 'restore'])
+                ->name('doctors.restore');
+            Route::delete('doctors/{id}/force-delete', [DoctorController::class, 'forceDelete'])
+                ->name('doctors.forceDelete');
+
+
+            Route::resource('categories', CategoryController::class);
+            Route::patch('categories/{id}/restore', [CategoryController::class, 'restore'])
+                ->name('categories.restore');
+            Route::delete('categories/{id}/force-delete', [CategoryController::class, 'forceDelete'])
+                ->name('categories.forceDelete');
+
+            Route::resource('services', ServiceController::class);
+            Route::patch('services/{id}/restore', [ServiceController::class, 'restore'])
+                ->name('services.restore');
+            Route::delete('services/{id}/force-delete', [ServiceController::class, 'forceDelete'])
+                ->name('services.forceDelete');
+        });
 });
 
 require __DIR__ . '/auth.php';
