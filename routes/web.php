@@ -17,11 +17,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
-Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
 
 // Auth routes
 Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
 
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -41,7 +40,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     // Transactions (semua role, dikontrol Policy)
-    Route::resource('transactions', TransactionController::class);
+    Route::resource('transactions', TransactionController::class)
+        ->except(['edit']);
 
     // Messages (chat konsultasi)
     Route::resource('transactions.messages', MessageController::class)
@@ -78,5 +78,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ->name('services.forceDelete');
         });
 });
+
+Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
+
 
 require __DIR__ . '/auth.php';

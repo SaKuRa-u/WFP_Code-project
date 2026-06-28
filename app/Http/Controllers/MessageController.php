@@ -2,63 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Message;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Transaction $transaction)
     {
-        //
+        $this->authorize('view', $transaction);
+
+        // Redirect ke halaman show transaksi (chat ada di sana)
+        return redirect()->route('transactions.show', $transaction->id);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(Request $request, Transaction $transaction)
     {
-        //
-    }
+        $this->authorize('create', [Message::class, $transaction]);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        // Hanya bisa chat jika status active
+        if ($transaction->status !== 'active') {
+            return back()->with('error', 'Konsultasi belum aktif atau sudah selesai.');
+        }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        $request->validate([
+            'message' => ['required', 'string', 'max:1000'],
+        ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+        Message::create([
+            'transaction_id' => $transaction->id,
+            'sender_id'      => Auth::id(),
+            'message'        => $request->message,
+        ]);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->route('transactions.show', $transaction->id)
+                         ->with('chat_sent', true);
     }
 }
