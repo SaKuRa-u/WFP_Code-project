@@ -158,7 +158,7 @@
     @if(request('search'))
         <div class="mb-3 d-flex align-items-center justify-content-between">
             <div style="font-size:0.85rem;color:var(--vg-muted);">
-                Menampilkan <strong>{{ $articles->total() }}</strong> hasil untuk
+                Menampilkan <strong>{{ $articles->count() }}</strong> hasil untuk
                 "<strong>{{ request('search') }}</strong>"
             </div>
             <a href="{{ route('articles.index') }}" style="font-size:0.82rem;color:var(--vg-primary);">

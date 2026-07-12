@@ -349,7 +349,7 @@
                                         @forelse($trashedDoctors as $doctor)
                                             <tr>
                                                 <td class="text-muted" style="font-size:0.78rem;">
-                                                    {{ $loop->iteration + ($trashedDoctors->currentPage() - 1) * $trashedDoctors->perPage() }}
+                                                    {{ $loop->iteration}}
                                                 </td>
                                                 <td>{{ $doctor->name }}</td>
                                                 <td>{{ $doctor->specialization }}</td>
