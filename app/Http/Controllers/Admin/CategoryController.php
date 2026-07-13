@@ -71,10 +71,10 @@ class CategoryController extends Controller
         if ($request->hasFile('image')) {
             // Hapus gambar lama jika bukan default
             if ($imageName !== 'no-preview.jpg') {
-                Storage::disk('public')->delete('categories/' . $imageName);
+                Storage::disk('public')->delete('categories/img/' . $imageName);
             }
             $imageName = time() . '_' . $request->file('image')->getClientOriginalName();
-            $request->file('image')->storeAs('categories', $imageName, 'public');
+            $request->file('image')->storeAs('categories/img/', $imageName, 'public');
         }
 
         $category->update([
