@@ -74,7 +74,7 @@ class TransactionController extends Controller
 
         $transaction->services()->attach($request->services);
 
-        return redirect()->route('transaction.show', $transaction->id)
+        return redirect()->route('transactions.show', $transaction->id)
             ->with('success', 'Booking berhasil dibuat! Menunggu konfirmasi.');
     }
 
